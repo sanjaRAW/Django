@@ -1,0 +1,7 @@
+{% for product in products %}
+    {{ product.name }}
+    {{ product.description }}
+    {{ product.price }}
+    <img src = "{{ product.image.url }}" >
+    {{ product.type }}
+{% endfor %}
