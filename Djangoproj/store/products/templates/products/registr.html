@@ -1,34 +1,31 @@
 {% load static %}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="{% static 'css/reg.css' %}" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/reg.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-<form method = "post" action="">
-	{% csrf_token %}
-<div class="container register-form">
-            <div class="form">
-                <div class="note">
-                    <p>This is a simpleRegister Form made using Boostrap.</p>
-                </div>
 
-                <div class="form-content">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ user.username }}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ user.password1 }}
-                            </div>
-                            <div class="form-group">
-                                {{ user.password2 }}
-                            </div>
-                        </div>
-                    </div>
-                    <input type="submit" name="Submit">
-                </div>
-            </div>
-        </div>
+<form method ='POST' action="">
+  {% csrf_token %}
+  <label>
+    <p class="label-txt">ENTER YOUR NAME</p>
+    {{ user.username }}
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER YOUR PASSWORD</p>
+    {{ user.password1 }}
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">CONFIRM YOUR PASSWORD</p>
+    {{ user.password2 }}
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <input type="submit" name="Submit">
 </form>
