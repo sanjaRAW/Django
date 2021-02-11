@@ -1,0 +1,10 @@
+{% extends 'products/base.html' %}
+{% block content %}
+
+
+{% for paragraph in paragr %}
+
+    <h1>{{ paragraph.title }}</h1>
+    <p>{{ paragraph.description }}</p>
+{% endfor %}
+{% endblock %}

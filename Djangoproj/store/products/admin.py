@@ -5,4 +5,4 @@ class product_top(admin.ModelAdmin):
     list_display = ['image', 'name', 'description', 'type', 'price', 'products_files']
 
 admin.site.register(Products)
-admin.site.register(Order)
+admin.site.register([Order, About_us, Contacts, Profile])

@@ -1,0 +1,34 @@
+
+{% extends 'products/base.html' %}
+{% block content %}
+
+
+<table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">contact type</th>
+      <th scope="col">first name</th>
+      <th scope="col">last name</th>
+      <th scope="col">address</th>
+      <th scope="col">longitude</th>
+      <th scope="col">latitude</th>
+      <th scope="col">phone number</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for contact in contacts %}
+    <tr>
+        <td>{{ contact.contacttype }}</td>
+        <td>{{ contact.real_name }}</td>
+        <td>{{ contact.lastname }}</td>
+        <td>{{ contact.address }}</td>
+        <td>{{ contact.longitude }}</td>
+        <td>{{ contact.latitude }}</td>
+        <td>{{ contact.phonenumb }}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+{% endblock %}
