@@ -9,14 +9,16 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
+from .filters import ProductFilter
 from .forms import *
 from .tokens import account_activation_token
 
 
 def products_page(request):
     products = Products.objects.all()
-    return render(request, 'products/products.html', {"products": products})
+    filter = ProductFilter(request.GET,queryset=products)
+    products = filter.qs
+    return render(request, 'products/products.html', {"products": products, 'filter':filter})
 
 
 
