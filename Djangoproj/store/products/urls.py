@@ -13,7 +13,7 @@ urlpatterns = [
     path('order_delete/<int:order_id>/', delete_order, name='order_delete'),
     path('login/', login_page, name='login'),
     path('logout/', logout_page, name='logout'),
-    path('reset_password/', a_views.PasswordResetView.as_view(template_name='user_dir/reset_password.html'),name='password_reset'),
+    path('reset_password/', a_views.PasswordResetView.as_view(),name='password_reset'),
     path('password_reset_done/', a_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
     path('reset/<uidb64>/<token>',a_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('reset_password_complete/', a_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),

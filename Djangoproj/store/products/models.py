@@ -26,11 +26,17 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Not Delivered', 'not delivered'),
     )
+    p_methods = (
+        ('money','money'),
+        ('wallet', 'wallet')
+
+    )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Products, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=1)
     status = models.CharField(max_length=20, choices=statuses, default='In Process')
     date_created = models.DateTimeField(auto_now_add=True)
+    payment_method = models.CharField(max_length=248, choices= p_methods)
 
 
 class About_us(models.Model):
@@ -66,4 +72,7 @@ class Profile(models.Model):
     description = models.TextField()
     birthday = models.DateField(default=date.today())
     twitterlink = models.CharField(max_length=100)
+    order_count = models.PositiveIntegerField(default=0)
+    wallet = models.PositiveIntegerField(default=0)
+    sale_amount = models.FloatField(default=1)
 

@@ -1,3 +1,5 @@
+import profile
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.sites.shortcuts import get_current_site
@@ -20,20 +22,31 @@ def products_page(request):
 
 def order_page(request, product_id):
     try:
+        profile = Profile.objects.get(user=request.user)
         product = Products.objects.get(id=product_id)
         total_price = 0
         discount_price = 0
-        form = OrderForm(initial={'product': product})
+        sale_amount = profile.sale_amount * 0.005
+        form = OrderForm(initial={'product': product, 'user': request.user})
         if request.method == 'POST':
             form = OrderForm(request.POST)
             if form.is_valid():
                 form.save()
                 total_price = product.price * form.cleaned_data['quantity']
-                discount_price = total_price * 0.8
+                discount_price = total_price - total_price * 0.2
+                discthramount = total_price - total_price * (sale_amount )
                 if product.sale:
                     total_price = discount_price
+                if form.cleaned_data['payment_method'] == 'wallet':
+                    if profile.wallet >= total_price:
+                        profile.wallet -= total_price
+                        return HttpResponse('sps za pokupku')
+                    else:
+                        return HttpResponse('not enough munny')
                 else:
-                    total_price = product.price * form.cleaned_data['quantity']
+                    profile.order_count += 1
+                    profile.save()
+                form.save()
 
 
         return render(request, 'products/order.html', {'form': form, 'total_price': total_price , 'discount_price': discount_price})
@@ -47,19 +60,19 @@ def reg_page(request):
         register = SignUpform(request.POST)
         if register.is_valid():
             user = register.save(commit=False)
-            user.is_active = False
+            user.is_active = True
             user.save()
-            # mail_subject = 'Activate!'
-            # current_site = get_current_site(request)
-            # to = register.cleaned_data.get('email')
-            # message = render_to_string('user_dir/activate.html', {
-            #     'user': user,
-            #     'domain': current_site.domain,
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token':account_activation_token.make_token(user),
-            # })
-            # email = EmailMessage(mail_subject,message,to=[to])
-            # email.send()
+            mail_subject = 'Activate!'
+            current_site = get_current_site(request)
+            to = register.cleaned_data.get('email')
+            message = render_to_string('user_dir/activate.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            email = EmailMessage(mail_subject,message,to=[to])
+            email.send()
             EmailMessage('lal','kaka',to=['maximneveraa@gmail.com',]).send()
 
             Profile.objects.create(user=user)
